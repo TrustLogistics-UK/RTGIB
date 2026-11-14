@@ -1,0 +1,116 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AccountType {
+  INDIVIDUAL
+  CORPORATE
+  INSTITUTIONAL
+}
+
+enum AccountStatus {
+  PENDING_KYC
+  VERIFIED
+  SUSPENDED
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  ADMIN_FUNDING
+  TRADE_BUY
+  TRADE_SELL
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  CONFIRMED
+  COMPLETED
+  REJECTED
+  FAILED
+}
+
+model Customer {
+  id                   String            @id @default(uuid())
+  accountNumber        String            @unique @default(uuid())
+  fullName             String
+  email                String            @unique
+  phone                String
+  countryOfResidence   String
+  residentialAddress   String
+  dateOfBirth          DateTime
+  nationality          String
+  preferredCurrency    String            @default("USD")
+  accountType          AccountType       @default(INDIVIDUAL)
+  accountStatus        AccountStatus     @default(PENDING_KYC>
+  passwordHash         String
+  
+  // Segregated Financial Ledgers
+  withdrawableCash     Float             @default(0.00)
+  investedCapital      Float             @default(0.00)
+  promotionalCredits   Float             @default(0.00)
+  restrictedBonuses    Float             @default(0.00)
+  pendingDeposits      Float             @default(0.00)
+  realisedPnL          Float             @default(0.00)
+  unrealisedPnL        Float             @default(0.00)
+
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  transactions         Transaction[]
+  holdings             PortfolioHolding[]
+  supportTickets       SupportTicket[]
+}
+
+model Transaction {
+  id              String            @id @default(uuid())
+  reference       String            @unique @default(uuid())
+  customerId      String
+  customer        Customer          @relation(fields: [customerId], references: [id])
+  type            TransactionType
+  amount          Float
+  currency        String
+  paymentMethod   String
+  status          TransactionStatus @default(PENDING)
+  description     String?
+  adminAuthorId   String?           // For manual funding tracking
+  createdAt       DateTime          @default(now())
+}
+
+model PortfolioHolding {
+  id            String    @id @default(uuid())
+  customerId    String
+  customer      Customer  @relation(fields: [customerId], references: [id])
+  assetSymbol   String    // e.g., AAPL, SPY, US-GOV-10Y
+  assetName     String
+  assetClass    String    // Stocks, Bonds, ETF, Forex
+  quantity      Float
+  averagePrice  Float
+  currentPrice  Float
+  updatedAt     DateTime  @updatedAt
+}
+
+model SupportTicket {
+  id          String   @id @default(uuid())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  subject     String
+  message     String
+  status      String   @default("OPEN") // OPEN, IN_PROGRESS, RESOLVED
+  createdAt   DateTime @default(now())
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  actorId     String   // Admin or User ID
+  action      String   // e.g., MANUAL_ACCOUNT_FUNDING, KYC_APPROVE
+  details     String
+  ipAddress   String?
+  createdAt   DateTime @default(now())
+}
