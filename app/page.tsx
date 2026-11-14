@@ -1,187 +1,151 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Shield, TrendingUp, DollarSign, ArrowUpRight, ArrowDownLeft, FileText, User, Globe, Lock, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import { Shield, TrendingUp, Globe, ArrowRight, Lock, UserCheck } from 'lucide-react';
 
-export default function RTGIBPlatform() {
-  const [activeTab, setActiveTab] = useState('dashboard');
-
-  // Active customer state (simulating an authenticated institutional client)
-  const clientData = {
-    name: 'Eleanor Vance',
-    accountId: 'RTGIB-2026-8842',
-    accountType: 'Institutional Account',
-    status: 'Verified (KYC Level 2)',
-    country: 'Cayman Islands',
-    currency: 'USD',
-    openingDate: 'January 14, 2026',
-    ledgers: {
-      withdrawableCash: 142500.00,
-      investedCapital: 850000.00,
-      promotionalCredits: 5000.00,
-      restrictedBonuses: 10000.00,
-      pendingDeposits: 25000.00,
-      realisedPnL: 38400.50,
-      unrealisedPnL: 62150.25
-    }
-  };
-
-  const totalPortfolioValue = clientData.ledgers.withdrawableCash + clientData.ledgers.investedCapital + clientData.ledgers.unrealisedPnL;
+export default function Home() {
+  const [activeTab, setActiveTab] = useState<'home' | 'register' | 'login'>('home');
 
   return (
-    <div className="min-h-screen bg-[#0B192C] text-white font-sans antialiased">
-      {/* Top Institutional Header */}
-      <header className="border-b border-blue-900/50 bg-[#0B192C]/90 backdrop-blur sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center font-bold text-[#0B192C] text-xl shadow-lg">
-              RT
-            </div>
-            <div>
-              <span className="text-lg font-bold tracking-wider text-white">RIGHT TRAJECTORY</span>
-              <span className="block text-xs text-amber-400 font-semibold tracking-widest">GLOBAL INVESTMENT BROKERS</span>
-            </div>
-          </div>
-          
-          <nav className="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-            <button onClick={() => setActiveTab('dashboard')} className={`hover:text-amber-400 transition ${activeTab === 'dashboard' ? 'text-amber-400 font-bold border-b-2 border-amber-400 pb-1' : ''}`}>Dashboard</button>
-            <button onClick={() => setActiveTab('services')} className={`hover:text-amber-400 transition ${activeTab === 'services' ? 'text-amber-400 font-bold border-b-2 border-amber-400 pb-1' : ''}`}>Services</button>
-            <button onClick={() => setActiveTab('markets')} className={`hover:text-amber-400 transition ${activeTab === 'markets' ? 'text-amber-400 font-bold border-b-2 border-amber-400 pb-1' : ''}`}>Markets</button>
-            <button onClick={() => setActiveTab('jurisdictions')} className={`hover:text-amber-400 transition ${activeTab === 'jurisdictions' ? 'text-amber-400 font-bold border-b-2 border-amber-400 pb-1' : ''}`}>Jurisdictions</button>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            <div className="text-right hidden sm:block">
-              <p className="text-xs text-slate-400">Authenticated Client</p>
-              <p className="text-sm font-bold text-amber-400">{clientData.name}</p>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-blue-900 border border-amber-400/40 flex items-center justify-center text-amber-400 font-semibold">
-              EV
-            </div>
+    <main className="min-h-screen bg-[#0B192C] text-white flex flex-col justify-between">
+      {/* Top Navigation Bar */}
+      <nav className="w-full border-b border-gray-800 px-6 py-4 flex justify-between items-center bg-[#0B192C]/90 sticky top-0 z-50 backdrop-blur">
+        <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setActiveTab('home')}>
+          <Shield className="h-8 w-8 text-[#D4AF37]" />
+          <div>
+            <span className="font-bold text-lg tracking-wider text-white">RTGIB</span>
+            <span className="block text-[10px] text-[#D4AF37] tracking-widest uppercase">Global Investment Brokers</span>
           </div>
         </div>
-      </header>
+        <div className="space-x-4">
+          <button 
+            onClick={() => setActiveTab('login')}
+            className="text-sm font-medium hover:text-[#D4AF37] transition px-3 py-2"
+          >
+            Client Login
+          </button>
+          <button 
+            onClick={() => setActiveTab('register')}
+            className="bg-[#D4AF37] text-[#0B192C] px-4 py-2 rounded font-semibold text-sm hover:bg-yellow-500 transition shadow-lg"
+          >
+            Open Account
+          </button>
+        </div>
+      </nav>
 
-      {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        
-        {/* Account Summary Banner */}
-        <div className="bg-gradient-to-r from-blue-950 via-blue-900 to-[#0B192C] border border-blue-800/60 rounded-2xl p-6 mb-8 shadow-2xl relative overflow-hidden">
-          <div className="absolute right-0 top-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-            <div>
-              <div className="flex items-center space-x-3 mb-2">
-                <span className="bg-amber-400/10 text-amber-400 border border-amber-400/30 text-xs px-3 py-1 rounded-full font-semibold">
-                  {clientData.accountType}
-                </span>
-                <span className="text-slate-400 text-sm">ID: <strong className="text-white">{clientData.accountId}</strong></span>
-                <span className="flex items-center text-emerald-400 text-xs bg-emerald-950/50 border border-emerald-800 px-2 py-0.5 rounded">
-                  <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> {clientData.status}
-                </span>
+      {/* Dynamic Content Area Based on Button Clicks */}
+      <div className="flex-1 max-w-6xl mx-auto px-6 py-12 w-full">
+        {activeTab === 'home' && (
+          <div className="space-y-12 text-center py-12">
+            <div className="inline-flex items-center space-x-2 bg-gray-900 border border-gray-800 px-4 py-1.5 rounded-full text-xs text-[#D4AF37]">
+              <Globe className="h-3.5 w-3.5" />
+              <span>Multi-Jurisdictional Institutional Brokerage Platform</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl font-bold tracking-tight">
+              Institutional-Grade Wealth <br />
+              <span className="text-[#D4AF37]">Across 36 Jurisdictions</span>
+            </h1>
+            
+            <p className="text-gray-400 max-w-2xl mx-auto text-base md:text-lg">
+              Secure multi-currency asset management, segregated financial ledgers, and institutional execution tailored for global investors.
+            </p>
+
+            <div className="flex justify-center gap-4 pt-4">
+              <button 
+                onClick={() => setActiveTab('register')}
+                className="bg-[#D4AF37] text-[#0B192C] font-bold px-8 py-3.5 rounded shadow-lg hover:bg-yellow-500 transition flex items-center space-x-2"
+              >
+                <span>Get Started Now</span>
+                <ArrowRight className="h-4 w-4" />
+              </button>
+              <button 
+                onClick={() => setActiveTab('login')}
+                className="border border-gray-700 hover:border-[#D4AF37] px-8 py-3.5 rounded font-medium transition"
+              >
+                Access Dashboard
+              </button>
+            </div>
+
+            {/* Feature Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-16 text-left">
+              <div className="bg-gray-900/60 border border-gray-800 p-6 rounded-lg">
+                <Shield className="h-6 w-6 text-[#D4AF37] mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Segregated Ledgers</h3>
+                <p className="text-sm text-gray-400">Strict separation of withdrawable cash, invested capital, and promotional credits.</p>
               </div>
-              <h1 className="text-3xl font-extrabold text-white tracking-tight">Portfolio Summary</h1>
-              <p className="text-slate-400 text-sm mt-1">Jurisdiction: {clientData.country} • Base Currency: {clientData.currency}</p>
+              <div className="bg-gray-900/60 border border-gray-800 p-6 rounded-lg">
+                <TrendingUp className="h-6 w-6 text-[#D4AF37] mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Multi-Asset Execution</h3>
+                <p className="text-sm text-gray-400">Trade equities, fixed income, ETFs, and foreign exchange seamlessly.</p>
+              </div>
+              <div className="bg-gray-900/60 border border-gray-800 p-6 rounded-lg">
+                <UserCheck className="h-6 w-6 text-[#D4AF37] mb-3" />
+                <h3 className="font-semibold text-lg mb-1">Instant Compliance</h3>
+                <p className="text-sm text-gray-400">Automated KYC verification and audit trails built for regulatory standards.</p>
+              </div>
             </div>
+          </div>
+        )}
 
-            <div className="flex space-x-3">
-              <button className="bg-amber-500 hover:bg-amber-400 text-[#0B192C] font-bold px-5 py-2.5 rounded-lg shadow-lg transition flex items-center space-x-2">
-                <ArrowDownLeft className="w-4 h-4" /><span>Deposit Funds</span>
-              </button>
-              <button className="bg-blue-900 hover:bg-blue-800 text-white border border-blue-700 font-semibold px-5 py-2.5 rounded-lg transition flex items-center space-x-2">
-                <ArrowUpRight className="w-4 h-4" /><span>Withdrawal</span>
+        {activeTab === 'register' && (
+          <div className="max-w-md mx-auto bg-gray-900 border border-gray-800 p-8 rounded-lg shadow-2xl">
+            <h2 className="text-2xl font-bold mb-2 text-white">Open an Account</h2>
+            <p className="text-sm text-gray-400 mb-6">Enter your details to initiate your institutional profile.</p>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1">Full Legal Name</label>
+                <input type="text" placeholder="John Doe" className="w-full bg-[#0B192C] border border-gray-700 rounded p-2.5 text-white text-sm focus:border-[#D4AF37] outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1">Email Address</label>
+                <input type="email" placeholder="john@institution.com" className="w-full bg-[#0B192C] border border-gray-700 rounded p-2.5 text-white text-sm focus:border-[#D4AF37] outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1">Password</label>
+                <input type="password" placeholder="••••••••" className="w-full bg-[#0B192C] border border-gray-700 rounded p-2.5 text-white text-sm focus:border-[#D4AF37] outline-none" />
+              </div>
+              <button className="w-full bg-[#D4AF37] text-[#0B192C] font-bold py-3 rounded hover:bg-yellow-500 transition mt-2">
+                Create Account
               </button>
             </div>
+            <p className="text-xs text-center text-gray-500 mt-4">
+              Already have an account? <button onClick={() => setActiveTab('login')} className="text-[#D4AF37] underline">Log in</button>
+            </p>
           </div>
-        </div>
+        )}
 
-        {/* Financial Ledgers & Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          
-          <div className="bg-slate-900/60 border border-blue-900/50 rounded-xl p-6 backdrop-blur">
-            <p className="text-slate-400 text-xs uppercase tracking-wider font-semibold">Total Portfolio Value</p>
-            <p className="text-3xl font-bold text-white mt-2">${totalPortfolioValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-            <p className="text-emerald-400 text-xs mt-2 flex items-center"><TrendingUp className="w-3.5 h-3.5 mr-1" /> +4.82% this month</p>
+        {activeTab === 'login' && (
+          <div className="max-w-md mx-auto bg-gray-900 border border-gray-800 p-8 rounded-lg shadow-2xl">
+            <h2 className="text-2xl font-bold mb-2 text-white flex items-center gap-2">
+              <Lock className="h-5 w-5 text-[#D4AF37]" />
+              Client Portal Login
+            </h2>
+            <p className="text-sm text-gray-400 mb-6">Access your segregated ledgers and live portfolios.</p>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1">Email Address</label>
+                <input type="email" placeholder="john@institution.com" className="w-full bg-[#0B192C] border border-gray-700 rounded p-2.5 text-white text-sm focus:border-[#D4AF37] outline-none" />
+              </div>
+              <div>
+                <label className="block text-xs uppercase tracking-wider text-gray-400 mb-1">Password</label>
+                <input type="password" placeholder="••••••••" className="w-full bg-[#0B192C] border border-gray-700 rounded p-2.5 text-white text-sm focus:border-[#D4AF37] outline-none" />
+              </div>
+              <button className="w-full bg-[#D4AF37] text-[#0B192C] font-bold py-3 rounded hover:bg-yellow-500 transition mt-2">
+                Secure Login
+              </button>
+            </div>
+            <p className="text-xs text-center text-gray-500 mt-4">
+              Need an account? <button onClick={() => setActiveTab('register')} className="text-[#D4AF37] underline">Register here</button>
+            </p>
           </div>
+        )}
+      </div>
 
-          <div className="bg-slate-900/60 border border-blue-900/50 rounded-xl p-6 backdrop-blur">
-            <p className="text-slate-400 text-xs uppercase tracking-wider font-semibold">Withdrawable Cash Balance</p>
-            <p className="text-3xl font-bold text-amber-400 mt-2">${clientData.ledgers.withdrawableCash.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-            <p className="text-slate-400 text-xs mt-2">Available for immediate withdrawal or trade</p>
-          </div>
-
-          <div className="bg-slate-900/60 border border-blue-900/50 rounded-xl p-6 backdrop-blur">
-            <p className="text-slate-400 text-xs uppercase tracking-wider font-semibold">Invested Capital</p>
-            <p className="text-3xl font-bold text-white mt-2">${clientData.ledgers.investedCapital.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-            <p className="text-slate-400 text-xs mt-2">Equities, Bonds & Fixed Income</p>
-          </div>
-
-          <div className="bg-slate-900/60 border border-blue-900/50 rounded-xl p-6 backdrop-blur">
-            <p className="text-slate-400 text-xs uppercase tracking-wider font-semibold">Unrealised P&L</p>
-            <p className="text-3xl font-bold text-emerald-400 mt-2">+${clientData.ledgers.unrealisedPnL.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-            <p className="text-slate-400 text-xs mt-2">Realised P&L: +${clientData.ledgers.realisedPnL.toLocaleString('en-US', { minimumFractionDigits: 2 })}</p>
-          </div>
-
-        </div>
-
-        {/* Segregated Ledgers Compliance Notice */}
-        <div className="bg-blue-950/30 border border-blue-900/40 rounded-xl p-5 mb-8 flex items-start space-x-4">
-          <Shield className="w-6 h-6 text-amber-400 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-slate-300">
-            <strong className="text-white block mb-1">Strict Financial Ledger Segregation Notice</strong>
-            Promotional credits (${clientData.ledgers.promotionalCredits.toLocaleString()}) and restricted bonuses (${clientData.ledgers.restrictedBonuses.toLocaleString()}) are maintained in segregated ledger accounts in accordance with North American and Caribbean regulatory compliance frameworks and cannot be represented as withdrawable cash.
-          </div>
-        </div>
-
-        {/* Recent Investment Holdings Table */}
-        <div className="bg-slate-900/60 border border-blue-900/50 rounded-2xl p-6">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-white">Active Investment Holdings</h2>
-            <button className="text-sm text-amber-400 hover:underline font-semibold">View All Holdings →</button>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-slate-300">
-              <thead className="border-b border-blue-900/50 text-slate-400 uppercase text-xs">
-                <tr>
-                  <th className="py-3 px-4">Asset / Instrument</th>
-                  <th className="py-3 px-4">Asset Class</th>
-                  <th className="py-3 px-4">Quantity</th>
-                  <th className="py-3 px-4">Avg Cost</th>
-                  <th className="py-3 px-4">Current Price</th>
-                  <th className="py-3 px-4 text-right">Total Value</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-blue-900/30">
-                <tr className="hover:bg-blue-950/20">
-                  <td className="py-4 px-4 font-bold text-white">AAPL <span className="block text-xs font-normal text-slate-400">Apple Inc.</span></td>
-                  <td className="py-4 px-4">International Equities</td>
-                  <td className="py-4 px-4">450</td>
-                  <td className="py-4 px-4">$175.20</td>
-                  <td className="py-4 px-4">$189.45</td>
-                  <td className="py-4 px-4 text-right font-bold text-emerald-400">$85,252.50</td>
-                </tr>
-                <tr className="hover:bg-blue-950/20">
-                  <td className="py-4 px-4 font-bold text-white">US-GOV-10Y <span className="block text-xs font-normal text-slate-400">US Treasury Note 4.25%</span></td>
-                  <td className="py-4 px-4">Government Bonds</td>
-                  <td className="py-4 px-4">500,000</td>
-                  <td className="py-4 px-4">$100.00</td>
-                  <td className="py-4 px-4">$101.20</td>
-                  <td className="py-4 px-4 text-right font-bold text-emerald-400">$506,000.00</td>
-                </tr>
-                <tr className="hover:bg-blue-950/20">
-                  <td className="py-4 px-4 font-bold text-white">SPY <span className="block text-xs font-normal text-slate-400">SPDR S&P 500 ETF Trust</span></td>
-                  <td className="py-4 px-4">Mutual Funds & ETFs</td>
-                  <td className="py-4 px-4">650</td>
-                  <td className="py-4 px-4">$480.10</td>
-                  <td className="py-4 px-4">$512.80</td>
-                  <td className="py-4 px-4 text-right font-bold text-emerald-400">$333,320.00</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-      </main>
-    </div>
+      {/* Footer */}
+      <footer className="w-full border-t border-gray-800 text-center py-6 text-xs text-gray-500">
+        © 2026 Right Trajectory Global Investment Brokers (RTGIB). All rights reserved.
+      </footer>
+    </main>
   );
 }
