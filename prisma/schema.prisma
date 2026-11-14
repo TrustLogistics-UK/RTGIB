@@ -48,7 +48,7 @@ model Customer {
   nationality          String
   preferredCurrency    String            @default("USD")
   accountType          AccountType       @default(INDIVIDUAL)
-  accountStatus        AccountStatus     @default(PENDING_KYC>
+  accountStatus        AccountStatus     @default(PENDING_KYC) 
   passwordHash         String
   
   // Segregated Financial Ledgers
