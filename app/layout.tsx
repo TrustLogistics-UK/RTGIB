@@ -3,7 +3,7 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Right Trajectory Global Investment Brokers (RTGIB)',
-  description: 'International Financial and Investment Brokerage Services Across the Americas and Caribbean',
+  description: 'Institutional-Grade Wealth Management and Multi-Jurisdictional Brokerage Platform',
 };
 
 export default function RootLayout({
@@ -13,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-[#0B192C] text-white antialiased">
+        {children}
+      </body>
     </html>
   );
 }
